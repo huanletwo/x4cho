@@ -1,3 +1,23 @@
+name: Update README
+
 on:
   schedule:
-    - cron: '0 */2 * * *' # ÿ2Сʱִ��һ��
+    - cron: '0 */2 * * *' # 每2小时触发一次
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout代码
+      uses: actions/checkout@v2
+      
+    - name: 更新 README
+      run: |
+        current_time=$(date "+%Y-%m-%d %H:%M:%S")
+        echo "最后更新时间：$current_time" >> readme.md
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add readme.md
+        git commit -m "自动更新 README"
+        git push
