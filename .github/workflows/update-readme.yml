@@ -8,7 +8,16 @@ jobs:
   update-readme:
     runs-on: ubuntu-latest
     
+    strategy:
+      matrix:
+        node-version: [16.x]
+
     steps:
+    - name: 使用 Node.js 16.x
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+    
     - name: Checkout 代码
       uses: actions/checkout@v2
       
@@ -21,3 +30,4 @@ jobs:
         git add readme.md
         git commit -m "自动更新 README"
         git push
+
